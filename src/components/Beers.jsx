@@ -1,32 +1,26 @@
 import React from "react";
-import * as axios from "axios";
 import { useEffect, useState } from "react";
 
-import notImg from "../assets/image.png";
 import Modal from "./Modal";
 import { useSwipeable } from "react-swipeable";
+import Header from "./Header";
+import BeersBlock from "./BeersBlock";
+import Filters from "./Filters";
 
 let Beers = (props) => {
-  const instanse = axios.create({
-    baseURL: "https://api.punkapi.com/v2/",
-  });
-
-  props = props.props;
-
   let count = 25;
-  let pagesCount = Math.ceil(props.pagesCount / count);
+
   let pages = [];
+  let pagesCount = Math.ceil(props.pagesCount / count);
   for (let i = 1; i <= pagesCount; i++) {
     pages.push(i);
   }
 
-  const [isActivePizza, changeActivePizza] = useState(false);
-  const [isActiveSteak, changeActiveSteak] = useState(false);
-  const [isActiveAll, changeActivAll] = useState(true);
+  const [isActiveFilter, changeActiveFilter] = useState("all");
 
   const [modalActive, changeModalActive] = useState(false);
 
-  const [beerNum, changeBeer] = useState(props.beers.beers[1]);
+  const [beerNum, changeBeer] = useState(props.beers[1]);
 
   const [sortType, chengeSort] = useState("asc");
 
@@ -58,61 +52,35 @@ let Beers = (props) => {
     props.getBeer(beerId);
   };
 
-  let onPageChanged = (page) => {
+  let onPageChanged = (page, isActiveFilter) => {
     props.changeCurrentPage(page);
-    instanse
-      .get(`beers?page=${page}&per_page=${count}`)
-      .then((response) => props.setBeers(response.data));
+    props.changePage(page, isActiveFilter);
   };
 
   let combinedWithPizza = () => {
-    instanse.get(`beers?food=pizza&per_page=80`).then((response) => {
-      props.changePagesCount(response.data.length);
-    });
-
-    instanse
-      .get(`beers?food=pizza&per_page=${count}`)
-      .then((response) => props.setBeers(response.data));
-    if (isActivePizza === false) {
-      changeActivePizza(true);
-      changeActiveSteak(false);
-      changeActivAll(false);
+    props.combined("pizza");
+    if (isActiveFilter !== "pizza") {
+      changeActiveFilter("pizza");
     }
   };
   let combinedWithSteak = () => {
-    instanse.get(`beers?food=steak&per_page=80`).then((response) => {
-      props.changePagesCount(response.data.length);
-    });
+    props.combined("steak");
 
-    instanse.get(`beers?food=steak&per_page=${count}`).then((response) => {
-      props.setBeers(response.data);
-    });
-
-    if (isActiveSteak === false) {
-      changeActiveSteak(true);
-      changeActivePizza(false);
-      changeActivAll(false);
+    if (isActiveFilter !== "steak") {
+      changeActiveFilter("steak");
     }
   };
-
-  let showAllBear = (currentPage) => {
-    instanse
-      .get(`beers?page=${currentPage}&per_page=80`)
-      .then((response) => props.changePagesCount(response.data.length));
-
-    instanse
-      .get(`beers?page=${currentPage}&per_page=${count}`)
-      .then((response) => props.setBeers(response.data));
-
-    if (isActiveAll === false) {
-      changeActivAll(true);
-      changeActivePizza(false);
-      changeActiveSteak(false);
+  let showAllBear = () => {
+    props.combined("all");
+    if (isActiveFilter !== "all") {
+      changeActiveFilter("all");
     }
   };
 
   const handlers = useSwipeable({
     onSwiped: (eventData) => {
+      console.log(currentTab);
+
       if (eventData.deltaX < 0) {
         if (currentTab === 0) {
           changeCurrentTab(2);
@@ -139,94 +107,38 @@ let Beers = (props) => {
   return (
     <div>
       <div className="container">
-        <div className="tabs" {...handlers}>
-          <div
-            className={
-              // "tab__item with__pizza"
-              "tab__item with__pizza" + (isActivePizza ? " active" : "")
-            }
-            onClick={combinedWithPizza}
-          >
-            <h3>With pizza</h3>
-          </div>
-          <div
-            className={
-              "tab__item with__steak " + (isActiveSteak ? " active" : "")
-            }
-            onClick={() => {
-              combinedWithSteak();
-            }}
-          >
-            <h3>With steak</h3>
-          </div>
-          <div
-            className={"tab__item all__beers" + (isActiveAll ? " active" : "")}
-            onClick={() => {
-              showAllBear(props.currentPage);
-            }}
-          >
-            <h3>All beers</h3>
-          </div>
-        </div>
+        <div {...handlers}>
+          <Header
+            isActiveFilter={isActiveFilter}
+            combinedWithPizza={combinedWithPizza}
+            combinedWithSteak={combinedWithSteak}
+            showAllBear={showAllBear}
+          />
 
-        <div className="tabs">
-          <div
-            className="tab__item"
-            onClick={onSort.bind(null, "name", sortType)}
-          >
-            Name
+          <Filters onSort={onSort} sortType={sortType} />
+
+          <div className="tabs pages__container">
+            {pages.map((page) => {
+              return (
+                <button
+                  key={page}
+                  className={`page__button ${
+                    props.currentPage === page ? "active" : ""
+                  }`}
+                  onClick={() => {
+                    onPageChanged(page, isActiveFilter);
+                  }}
+                >
+                  {page}
+                </button>
+              );
+            })}
           </div>
-
-          <div
-            className="tab__item"
-            onClick={onSort.bind(null, "abv", sortType)}
-          >
-            Abv
-          </div>
-        </div>
-
-        <div className="tabs pages__container">
-          {pages.map((page) => {
-            return (
-              <button
-                key={page}
-                className={`page__button ${
-                  props.currentPage === page ? "active" : ""
-                }`}
-                onClick={() => {
-                  onPageChanged(page);
-                }}
-              >
-                {page}
-              </button>
-            );
-          })}
-        </div>
-        <div className="beers">
-          {props.beers.beers.map((beer) => (
-            <div
-              key={beer.id}
-              className="beer"
-              onClick={() => {
-                changeModalActive(true);
-                showBeerInfo(beer);
-              }}
-            >
-              {beer.image_url === null ? (
-                <img
-                  src={notImg}
-                  style={{ width: 40 + "%" }}
-                  alt={beer.name}
-                ></img>
-              ) : (
-                <img src={beer.image_url} alt={beer.name}></img>
-              )}
-
-              <h4>{beer.name}</h4>
-
-              <p>{beer.abv}</p>
-            </div>
-          ))}
+          <BeersBlock
+            beers={props.beers}
+            changeModalActive={changeModalActive}
+            showBeerInfo={showBeerInfo}
+          />
         </div>
       </div>
       <Modal
