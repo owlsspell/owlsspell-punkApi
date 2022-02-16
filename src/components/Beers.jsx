@@ -1,13 +1,39 @@
 import React from "react";
 import { useEffect, useState } from "react";
 
-import Modal from "./Modal";
+import Modal from "./ModalContent";
 import { useSwipeable } from "react-swipeable";
-import Header from "./Header";
+import MainTabPanel from "./MainTabPanel";
 import BeersBlock from "./BeersBlock";
 import Filters from "./Filters";
+import FilterTabPanel from "./FilterTabPanel";
+import Paginator from "./Paginator";
+import { colorPalette } from "./color";
+import { withStyles } from "@mui/styles";
+
+const styles = {
+  pagesContainer: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: "5px 0 10px",
+    backgroundColor: `${colorPalette[2]}`,
+    marginBottom: 20
+  },
+  fixedTabMain:{
+    maxWidth: 900,
+    width: '100%',
+    position: 'fixed',
+    opacity: 1,
+    zIndex:100,
+    marginTop: 10
+  }
+};
+
 
 let Beers = (props) => {
+  const { classes } = props;
+
   let count = 25;
 
   let pages = [];
@@ -47,9 +73,8 @@ let Beers = (props) => {
     }
   }, [currentTab]);
 
-  let showBeerInfo = (beerId) => {
-    changeBeer(beerId);
-    props.getBeer(beerId);
+  let showBeerInfo = (beer) => {
+    changeBeer(beer);
   };
 
   let onPageChanged = (page, isActiveFilter) => {
@@ -108,46 +133,37 @@ let Beers = (props) => {
     <div>
       <div className="container">
         <div {...handlers}>
-          <Header
+          <div className={classes.fixedTabMain}>
+          <MainTabPanel
             isActiveFilter={isActiveFilter}
             combinedWithPizza={combinedWithPizza}
             combinedWithSteak={combinedWithSteak}
             showAllBear={showAllBear}
           />
 
-          <Filters onSort={onSort} sortType={sortType} />
+          <FilterTabPanel onSort={onSort} sortType={sortType} />
 
-          <div className="tabs pages__container">
-            {pages.map((page) => {
-              return (
-                <button
-                  key={page}
-                  className={`page__button ${
-                    props.currentPage === page ? "active" : ""
-                  }`}
-                  onClick={() => {
-                    onPageChanged(page, isActiveFilter);
-                  }}
-                >
-                  {page}
-                </button>
-              );
-            })}
+          <div
+            className={classes.pagesContainer}
+          >
+            <Paginator
+              pages={pages}
+              isActiveFilter={isActiveFilter}
+              onPageChanged={onPageChanged}
+              currentPage={props.currentPage}
+            />
+          </div>
           </div>
           <BeersBlock
             beers={props.beers}
             changeModalActive={changeModalActive}
             showBeerInfo={showBeerInfo}
+            beerNum={beerNum}
           />
         </div>
       </div>
-      <Modal
-        active={modalActive}
-        changeModalActive={changeModalActive}
-        beer={beerNum}
-      />
     </div>
   );
 };
 
-export default Beers;
+export default withStyles(styles)(Beers);
