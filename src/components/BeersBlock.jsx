@@ -61,6 +61,13 @@ const styles = {
     bottom: "0",
     color: `${colorPalette[1]} !important`,
   },
+  zoom: {
+    transition: 'transform .5s',
+    '&:hover': {
+      transform: 'scale(1.1)',
+      transition: 'transform .5s'
+    }
+  }
 };
 
 const BeersBlock = (props) => {
@@ -88,10 +95,11 @@ const BeersBlock = (props) => {
                       src={notImg}
                       style={{ width: 40 + "%" }}
                       alt={beer.name}
+                      className={classes.zoom}
                     ></img>
                   ) : (
                     <CardMedia
-                      className={classes.image}
+                      className={classes.image + " "+classes.zoom}
                       component="img"
                       height="140"
                       width="auto"
@@ -102,7 +110,7 @@ const BeersBlock = (props) => {
                 </CardActions>
 
                 <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
+                  <Typography gutterBottom variant="h5" component="div" className={classes.zoom}>
                     {beer.name}
                   </Typography>
                   <p>{beer.abv} %</p>
@@ -113,7 +121,7 @@ const BeersBlock = (props) => {
                   size="small"
                   color="primary"
                   onClick={handleOpen}
-                  className={classes.read_more}
+                  className={classes.read_more + " " + classes.zoom}
                 >
                   Read More
                 </Button>

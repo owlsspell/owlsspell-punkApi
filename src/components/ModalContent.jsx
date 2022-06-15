@@ -7,10 +7,16 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActions } from "@mui/material";
 import { withStyles } from "@mui/styles";
+import ArrowCircleDownIcon from "@mui/icons-material/ArrowCircleDown";
+import ArrowCircleUpIcon from "@mui/icons-material/ArrowCircleUp";
+import { colorPalette } from "./color";
 
 const styles = {
   Card: {
     padding: 20,
+    "& *": {
+      fontFamily: "'Redressed', cursive",
+    },
   },
   cardActionArea: {
     display: "flex",
@@ -37,7 +43,46 @@ const styles = {
     minWidth: "130px",
     maxHeight: 500,
   },
-  cursor: { cursor: "pointer" },
+  cursor: {
+    cursor: "pointer",
+    display: "flex",
+    alignItems: "center",
+    transition: "all .5s",
+  },
+  tagline: {
+    fontFamily: "'Caveat',cursive",
+    fontStyle: "italic",
+  },
+  cardContent:{
+    width:'100%',
+  },
+  description: {
+    // maxHeight: 800,
+    // transition: "all 1s",
+    // overflow: "auto",
+    // animation: "all 1s",
+    // overflowY: "hidden",
+  
+    maxHeight: '80px',
+  height: 'auto',
+  overflow: 'hidden',
+  transition:'max-height 0.8s ease',
+  overflow: "hidden",
+  },
+
+  description__hidden: {
+    maxHeight: '1000px',
+    transition: 'max-height 0.8s ease',
+    overflow: "hidden",
+    // maxHeight: 50,
+    // overflow: "hidden",
+    // textOverflow: "ellipsis",
+    // display: "-webkit-box",
+    // WebkitLineClamp: "2",
+    // WebkitBoxOrient: "vertical",
+    // transition: "all 1s ",
+    // animation: "1s all",
+  },
 };
 
 const Modal = (props) => {
@@ -49,6 +94,13 @@ const Modal = (props) => {
     display: "-webkit-box",
     WebkitLineClamp: "2",
     WebkitBoxOrient: "vertical",
+    height: 50,
+  };
+  let scrollText = {
+    height: "100%",
+  };
+  let styleArrow = {
+    animation: 'rotation 8s infinite linear'
   };
 
   const [isActiveStyleDescr, changeActiveStyleDesc] = useState(false);
@@ -91,34 +143,52 @@ const Modal = (props) => {
             )}
           </CardActions>
 
-          <CardContent>
+          <CardContent className={classes.cardContent} >
             <Typography gutterBottom variant="h5" component="div">
               {beer.name}
             </Typography>
+            <Typography
+              sx={{ fontSize: 14 }}
+              color="text.secondary"
+              gutterBottom
+            >
+              <p className={classes.tagline}> {beer.tagline}</p>
+            </Typography>
             <p>{beer.abv} %</p>
             <div>
-              <h4>Name:</h4> <p>{beer.name}</p>
               <div />
-              <div>
-                <h4>Tagline:</h4> <p> {beer.tagline}</p>
-              </div>
-              <div>
-                <h4>Abv :</h4> <p>{beer.abv}</p>
-              </div>
               <div className={classes.cursor}>
-                <h4>Description :</h4>
+                {/* <h4>Description :</h4> */}
 
-                <p
-                  style={isActiveStyleDescr ? null : styleText}
-                  onClick={showDescription}
+                <div
+                  className={
+                    isActiveStyleDescr
+                      ? classes.description
+                      : classes.description__hidden
+                  }
+                  // style={isActiveStyleDescr ? scrollText : styleText}
+                  // onClick={showDescription}
                 >
-                  {beer.description}
-                </p>
+                  {/* {beer.description + (isActiveStyleDescr ? '...':"")}  */}
+                  {isActiveStyleDescr ? (beer.description.slice(0, 100) +'...'): beer.description} 
+                </div>
+                <ArrowCircleDownIcon style={styleArrow} onClick={()=>changeActiveStyleDesc(false)}
+                  sx={{ color: colorPalette[3], fontSize: "2em" }}
+                />
+                <ArrowCircleUpIcon onClick={()=>changeActiveStyleDesc(true)}
+                  sx={{ color: colorPalette[3], fontSize: "2em" }}
+                />
               </div>
+              {/* {      isActiveStyleDescr? null : <span>...</span>        } */}
+              <h4>Food pairing :</h4>
               <div className={classes.cursor}>
-                <h4>Food pairing :</h4>
                 <p
-                  style={isActiveStyleFood ? null : styleText}
+                  // style={isActiveStyleFood ? null : styleText}
+                  className={
+                    isActiveStyleFood
+                      ? classes.description
+                      : classes.description__hidden
+                  }
                   onClick={showFoodPairing}
                 >
                   {beer.food_pairing

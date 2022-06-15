@@ -17,7 +17,7 @@ const styles = {
     alignItems: "center",
     justifyContent: "center",
     padding: "5px 0 10px",
-    backgroundColor: `${colorPalette[2]}`,
+    background:`linear-gradient(${colorPalette[1]},${colorPalette[2]},${colorPalette[3]})`,
     marginBottom: 20
   },
   fixedTabMain:{
