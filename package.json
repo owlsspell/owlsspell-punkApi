@@ -1,7 +1,10 @@
 {
-  "name": "pixel_teh",
+  "name": "punk-api",
   "version": "0.1.0",
   "private": true,
+  "engines": { 
+    "node" : ">=16.0.0"
+  },
   "dependencies": {
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
