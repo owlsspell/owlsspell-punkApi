@@ -88,17 +88,6 @@ const styles = {
 const Modal = (props) => {
   const { classes, beer } = props;
 
-  let styleText = {
-    overflow: "hidden",
-    textOverflow: "ellipsis",
-    display: "-webkit-box",
-    WebkitLineClamp: "2",
-    WebkitBoxOrient: "vertical",
-    height: 50,
-  };
-  let scrollText = {
-    height: "100%",
-  };
   let styleArrow = {
     animation: 'rotation 8s infinite linear'
   };

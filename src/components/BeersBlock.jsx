@@ -58,14 +58,23 @@ const styles = {
   },
   read_more: {
     position: "absolute!important",
-    bottom: "0",
+    bottom: 0,
+    left: 0,
     color: `${colorPalette[1]} !important`,
   },
   zoom: {
-    transition: 'transform .5s',
+    transition: 'all .5s  ease-in-out',
+    // transition: 'margin .5s  ease-in-out',
+   
     '&:hover': {
-      transform: 'scale(1.1)',
-      transition: 'transform .5s'
+      transform: 'scale(1.2)',
+      transition: 'all .5s  ease-in-out',
+  
+
+      marginLeft:'20px',
+      marginBottom:'0',
+      left: 20,
+      bottom: 0
     }
   }
 };
@@ -99,7 +108,7 @@ const BeersBlock = (props) => {
                     ></img>
                   ) : (
                     <CardMedia
-                      className={classes.image + " "+classes.zoom}
+                      className={classes.image + " " + classes.zoom}
                       component="img"
                       height="140"
                       width="auto"
@@ -121,7 +130,7 @@ const BeersBlock = (props) => {
                   size="small"
                   color="primary"
                   onClick={handleOpen}
-                  className={classes.read_more + " " + classes.zoom}
+                  className={classes.read_more}
                 >
                   Read More
                 </Button>
