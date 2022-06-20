@@ -11,6 +11,9 @@ import ModalContent from "./ModalContent";
 import { colorPalette } from "./color";
 
 const styles = {
+  customModal: {
+    overflow: 'scroll',
+  },
   Card: {
     height: "100%",
     "@media (max-width:600px)": {
@@ -49,6 +52,13 @@ const styles = {
     boxShadow: 24,
     padding: 4,
     border: "none",
+    height: "100%",
+    ['@media (max-width:980px)']: {
+      width: '70%'
+    },
+    ['@media (max-width:680px)']: {
+      width: '85%'
+    },
   },
   read_more: {
     position: "absolute!important",
@@ -119,7 +129,7 @@ const BeersBlock = (props) => {
                   <p>{beer.abv} %</p>
                 </CardContent>
               </div>
-              <CardActions>
+              <div>
                 <Button
                   size="small"
                   color="primary"
@@ -128,7 +138,7 @@ const BeersBlock = (props) => {
                 >
                   Read More
                 </Button>
-              </CardActions>
+              </div>
             </CardActionArea>
           </Card>
         </Grid>
@@ -139,6 +149,7 @@ const BeersBlock = (props) => {
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
+        className={classes.customModal}
       >
         <Box className={classes.modalStyle}>
           <ModalContent beer={props.beerNum} />

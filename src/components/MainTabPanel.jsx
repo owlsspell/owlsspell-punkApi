@@ -69,8 +69,9 @@ const Header = (props) => {
           style={{ backgroundColor: "#42281c" }}
           TabIndicatorProps={{ style: { backgroundColor: colorPalette[2] } }}
         >
-          {tabs.map((item) => (
+          {tabs.map((item,i) => (
             <Tab
+            key={tabs[i]}
               label={item}
               {...a11yProps(0)}
             />

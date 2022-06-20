@@ -13,7 +13,8 @@ import { colorPalette } from "./color";
 
 const styles = {
   Card: {
-    padding: 20,
+    padding: '0 20px 20px 0',
+    width:'100%',
     "& *": {
       fontFamily: "'Redressed', cursive",
     },
@@ -24,6 +25,7 @@ const styles = {
     justifyContent: "space-between",
     height: "100%",
     width: "100%",
+    overflowY: "auto"
   },
   cardContainer: {
     display: "flex",
@@ -34,8 +36,11 @@ const styles = {
   cardImgContainer: {
     display: "flex",
     justifyContent: "flex-end",
-    width: "100%",
-    paddingRight: 20,
+    width: "40%",
+    padding: "20px!important",
+    ['@media (max-width:500px)']: {
+      display:'none!important'
+    },
   },
   image: {
     objectFit: "contain!important",
@@ -46,7 +51,7 @@ const styles = {
   cursor: {
     cursor: "pointer",
     display: "flex",
-    alignItems: "center",
+    alignItems: "flex-start",
     transition: "all .5s",
   },
   tagline: {
@@ -54,7 +59,8 @@ const styles = {
     fontStyle: "italic",
   },
   cardContent: {
-    width: "100%",
+    width: "auto",
+    padding: '5px 16px 16px 25px!important',
   },
   description__hidden: {
     maxHeight: "100px",
@@ -68,6 +74,22 @@ const styles = {
     transition: "max-height 0.8s ease",
     overflow: "hidden",
   },
+  title_container:{
+    backgroundColor: colorPalette[2],
+    padding: '5px 10px 5px 25px',
+    color: '#ffff',
+    borderRadius: '0 0 100px 0'
+  },
+  abv:{
+    padding: '6px 8px',
+    backgroundColor: colorPalette[1],
+    width: 'max-content',
+    color: '#ffff',
+    borderRadius: '50%'
+  },
+  textColumn :{
+    width: '140%',
+  }
 };
 
 const Modal = (props) => {
@@ -93,7 +115,7 @@ const Modal = (props) => {
       changeActiveStyleFood(false);
     }
   };
-  console.log("isActiveStyleDescr,", isActiveStyleDescr);
+  
   return (
     <Card key={beer.id} className={classes.Card}>
       <div className={classes.cardActionArea}>
@@ -116,23 +138,23 @@ const Modal = (props) => {
               />
             )}
           </CardActions>
-
-          <CardContent className={classes.cardContent}>
-            <Typography gutterBottom variant="h5" component="div">
+          <div className={classes.textColumn}>
+          <Typography gutterBottom variant="h5" component="div" className={classes.title_container}>
               {beer.name}
             </Typography>
+          <CardContent className={classes.cardContent}>
+           
             <Typography
               sx={{ fontSize: 14 }}
-              color="text.secondary"
+              color={colorPalette[0]}
               gutterBottom
             >
-              <p className={classes.tagline}> {beer.tagline}</p>
+              <span className={classes.tagline}> {beer.tagline}</span>
             </Typography>
-            <p>{beer.abv} %</p>
+            <p className={classes.abv}>{beer.abv} %</p>
             <div>
               <div />
               <div className={classes.cursor}>
-
                 <div
                   className={
                     isActiveStyleDescr
@@ -140,11 +162,11 @@ const Modal = (props) => {
                       : classes.description__hidden
                   }
                 >
-                  {!isActiveStyleDescr
-                    ? beer.description.slice(0, 100) + "..."
-                    : beer.description}
+                  {isActiveStyleDescr ||  beer.description.split(" ").join('').length <=100
+                    ? beer.description:
+                    beer.description.slice(0, 100) + "..."}
                 </div>
-                {!isActiveStyleDescr ? (
+                {beer.description.split(" ").join('').length <=100 ? "" : !isActiveStyleDescr ? (
                   <ArrowCircleDownIcon
                     style={styleArrow}
                     onClick={() => changeActiveStyleDesc(true)}
@@ -178,6 +200,7 @@ const Modal = (props) => {
               </div>
             </div>
           </CardContent>
+          </div>
         </div>
       </div>
     </Card>

@@ -31,7 +31,7 @@ export default function PaginationOutlined({
         page={currentPage}
         className={classes.num}
         onChange={(e, numPage) => onPageChanged(numPage, isActiveFilter)}
-        TabIndicatorProps={{ style: { backgroundColor: colorPalette[2] } }}
+        tabIndicatorProps={{ style: { backgroundColor: colorPalette[2] } }}
       />
     </Stack>
   );

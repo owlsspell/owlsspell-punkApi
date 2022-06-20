@@ -101,7 +101,6 @@ let Beers = (props) => {
 
   const handlers = useSwipeable({
     onSwiped: (eventData) => {
-      console.log(currentTab);
 
       if (eventData.deltaX < 0) {
         if (currentTab === 0) {

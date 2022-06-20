@@ -14,7 +14,6 @@ import { colorPalette } from "./color";
 import spinner from "../assets/Spinner-1s-200px.svg"
 
 let BeersContainer = (props) => {
-  console.log(spinner);
   let combined = (food) => {
     getBeersByFood(food).then((response) => {
       props.changePagesCount(response.data.length);
@@ -28,13 +27,13 @@ let BeersContainer = (props) => {
   };
 
   const particlesInit = (main) => {
-    console.log(main);
+    // console.log(main);
     // loadBubblesPreset(main);
     // you can initialize the tsParticles instance (main) here, adding custom shapes or presets
   };
 
   const particlesLoaded = (container) => {
-    console.log(container);
+    // console.log(container);
   };
   const options = {
     fpsLimit: 60,
