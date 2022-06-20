@@ -12,7 +12,7 @@ import { colorPalette } from "./color";
 
 const styles = {
   customModal: {
-    overflow: 'scroll',
+    overflow: "scroll",
   },
   Card: {
     height: "100%",
@@ -45,6 +45,7 @@ const styles = {
   },
 
   modalStyle: {
+    height: "auto",
     position: "absolute",
     top: "50%",
     left: "50%",
@@ -52,12 +53,11 @@ const styles = {
     boxShadow: 24,
     padding: 4,
     border: "none",
-    height: "100%",
-    ['@media (max-width:980px)']: {
-      width: '70%'
+    ["@media (max-width:980px)"]: {
+      width: "70%",
     },
-    ['@media (max-width:680px)']: {
-      width: '85%'
+    ["@media (max-width:680px)"]: {
+      width: "85%",
     },
   },
   read_more: {
@@ -67,20 +67,19 @@ const styles = {
     color: `${colorPalette[1]} !important`,
   },
   zoom: {
-    transition: 'all .5s  ease-in-out',
+    transition: "all .5s  ease-in-out",
     // transition: 'margin .5s  ease-in-out',
-   
-    '&:hover': {
-      transform: 'scale(1.2)',
-      transition: 'all .5s  ease-in-out',
-  
 
-      marginLeft:'20px',
-      marginBottom:'0',
+    "&:hover": {
+      transform: "scale(1.2)",
+      transition: "all .5s  ease-in-out",
+
+      marginLeft: "20px",
+      marginBottom: "0",
       left: 20,
-      bottom: 0
-    }
-  }
+      bottom: 0,
+    },
+  },
 };
 
 const BeersBlock = (props) => {
@@ -123,7 +122,12 @@ const BeersBlock = (props) => {
                 </CardActions>
 
                 <CardContent>
-                  <Typography gutterBottom variant="h5" component="div" className={classes.zoom}>
+                  <Typography
+                    gutterBottom
+                    variant="h5"
+                    component="div"
+                    className={classes.zoom}
+                  >
                     {beer.name}
                   </Typography>
                   <p>{beer.abv} %</p>
@@ -143,7 +147,7 @@ const BeersBlock = (props) => {
           </Card>
         </Grid>
       ))}
-     
+
       <Modal
         open={open}
         onClose={handleClose}
@@ -157,7 +161,6 @@ const BeersBlock = (props) => {
       </Modal>
     </Grid>
   );
-
 };
 
 export default withStyles(styles)(BeersBlock);
