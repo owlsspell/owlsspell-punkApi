@@ -155,6 +155,7 @@ let BeersContainer = (props) => {
         pagesCount={props.pagesCount}
         combined={combined}
         changePage={changePage}
+        onSort={props.onSort}
       />
     :<div className="spinner_container"><img src={spinner} alt=""/></div> }
     </>

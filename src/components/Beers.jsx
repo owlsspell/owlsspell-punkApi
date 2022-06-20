@@ -30,7 +30,7 @@ const styles = {
 
 
 let Beers = (props) => {
-  const { classes,pagesCount,currentPage,beers,changeCurrentPage,combined,changePage } = props;
+  const { classes,pagesCount,currentPage,beers,changeCurrentPage,combined,changePage,onSort } = props;
  
   let count = 25;
 
@@ -119,7 +119,7 @@ let Beers = (props) => {
     },
   });
 
-  let onSort = (sortField, sortType) => {
+  let onSortFunc = (sortField, sortType) => {
     let orderType = sortType === "asc" ? "desc" : "asc";
     chengeSort(orderType);
     onSort(sortField, sortType);
@@ -137,7 +137,7 @@ let Beers = (props) => {
             showAllBear={showAllBear}
           />
 
-          <FilterTabPanel onSort={onSort} sortType={sortType} />
+          <FilterTabPanel onSort={onSortFunc} sortType={sortType} />
 
           <div
             className={classes.pagesContainer}
