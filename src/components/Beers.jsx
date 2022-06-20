@@ -1,11 +1,9 @@
 import React from "react";
 import { useEffect, useState } from "react";
 
-import Modal from "./ModalContent";
 import { useSwipeable } from "react-swipeable";
 import MainTabPanel from "./MainTabPanel";
 import BeersBlock from "./BeersBlock";
-import Filters from "./Filters";
 import FilterTabPanel from "./FilterTabPanel";
 import Paginator from "./Paginator";
 import { colorPalette } from "./color";
@@ -32,29 +30,27 @@ const styles = {
 
 
 let Beers = (props) => {
-  const { classes } = props;
-
+  const { classes,pagesCount,currentPage,beers,changeCurrentPage,combined,changePage } = props;
+ 
   let count = 25;
 
   let pages = [];
-  let pagesCount = Math.ceil(props.pagesCount / count);
-  for (let i = 1; i <= pagesCount; i++) {
+  let resultPagesCount = Math.ceil(pagesCount / count);
+  for (let i = 1; i <= resultPagesCount; i++) {
     pages.push(i);
   }
 
   const [isActiveFilter, changeActiveFilter] = useState("all");
 
-  const [modalActive, changeModalActive] = useState(false);
-
-  const [beerNum, changeBeer] = useState(props.beers[1]);
+  const [beerNum, changeBeer] = useState(beers[1]);
 
   const [sortType, chengeSort] = useState("asc");
 
   let [currentTab, changeCurrentTab] = useState(2);
 
   useEffect(() => {
-    props.changeCurrentPage(1);
-  }, [props.pagesCount]);
+    changeCurrentPage(1);
+  }, [pagesCount]);
 
   useEffect(() => {
     switch (currentTab) {
@@ -67,9 +63,10 @@ let Beers = (props) => {
         break;
       }
       case 2: {
-        showAllBear(props.currentPage);
+        showAllBear(currentPage);
         break;
       }
+      default: return
     }
   }, [currentTab]);
 
@@ -78,25 +75,25 @@ let Beers = (props) => {
   };
 
   let onPageChanged = (page, isActiveFilter) => {
-    props.changeCurrentPage(page);
-    props.changePage(page, isActiveFilter);
+    changeCurrentPage(page);
+    changePage(page, isActiveFilter);
   };
 
   let combinedWithPizza = () => {
-    props.combined("pizza");
+    combined("pizza");
     if (isActiveFilter !== "pizza") {
       changeActiveFilter("pizza");
     }
   };
   let combinedWithSteak = () => {
-    props.combined("steak");
+    combined("steak");
 
     if (isActiveFilter !== "steak") {
       changeActiveFilter("steak");
     }
   };
   let showAllBear = () => {
-    props.combined("all");
+    combined("all");
     if (isActiveFilter !== "all") {
       changeActiveFilter("all");
     }
@@ -126,7 +123,7 @@ let Beers = (props) => {
   let onSort = (sortField, sortType) => {
     let orderType = sortType === "asc" ? "desc" : "asc";
     chengeSort(orderType);
-    props.onSort(sortField, sortType);
+    onSort(sortField, sortType);
   };
 
   return (
@@ -150,13 +147,12 @@ let Beers = (props) => {
               pages={pages}
               isActiveFilter={isActiveFilter}
               onPageChanged={onPageChanged}
-              currentPage={props.currentPage}
+              currentPage={currentPage}
             />
           </div>
           </div>
           <BeersBlock
-            beers={props.beers}
-            changeModalActive={changeModalActive}
+            beers={beers}
             showBeerInfo={showBeerInfo}
             beerNum={beerNum}
           />

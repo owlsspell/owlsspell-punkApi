@@ -53,35 +53,20 @@ const styles = {
     fontFamily: "'Caveat',cursive",
     fontStyle: "italic",
   },
-  cardContent:{
-    width:'100%',
+  cardContent: {
+    width: "100%",
   },
-  description: {
-    // maxHeight: 800,
-    // transition: "all 1s",
-    // overflow: "auto",
-    // animation: "all 1s",
-    // overflowY: "hidden",
-  
-    maxHeight: '80px',
-  height: 'auto',
-  overflow: 'hidden',
-  transition:'max-height 0.8s ease',
-  overflow: "hidden",
+  description__hidden: {
+    maxHeight: "100px",
+    height: "auto",
+    overflow: "hidden",
+    transition: "max-height 0.8s ease",
   },
 
-  description__hidden: {
-    maxHeight: '1000px',
-    transition: 'max-height 0.8s ease',
+  description: {
+    maxHeight: "1000px",
+    transition: "max-height 0.8s ease",
     overflow: "hidden",
-    // maxHeight: 50,
-    // overflow: "hidden",
-    // textOverflow: "ellipsis",
-    // display: "-webkit-box",
-    // WebkitLineClamp: "2",
-    // WebkitBoxOrient: "vertical",
-    // transition: "all 1s ",
-    // animation: "1s all",
   },
 };
 
@@ -89,18 +74,18 @@ const Modal = (props) => {
   const { classes, beer } = props;
 
   let styleArrow = {
-    animation: 'rotation 8s infinite linear'
+    animation: "rotation 8s infinite linear",
   };
 
   const [isActiveStyleDescr, changeActiveStyleDesc] = useState(false);
   const [isActiveStyleFood, changeActiveStyleFood] = useState(false);
-  let showDescription = () => {
-    if (!isActiveStyleDescr) {
-      changeActiveStyleDesc(true);
-    } else {
-      changeActiveStyleDesc(false);
-    }
-  };
+  // let showDescription = () => {
+  //   if (!isActiveStyleDescr) {
+  //     changeActiveStyleDesc(true);
+  //   } else {
+  //     changeActiveStyleDesc(false);
+  //   }
+  // };
   let showFoodPairing = () => {
     if (!isActiveStyleFood) {
       changeActiveStyleFood(true);
@@ -108,7 +93,7 @@ const Modal = (props) => {
       changeActiveStyleFood(false);
     }
   };
-
+  console.log("isActiveStyleDescr,", isActiveStyleDescr);
   return (
     <Card key={beer.id} className={classes.Card}>
       <div className={classes.cardActionArea}>
@@ -132,7 +117,7 @@ const Modal = (props) => {
             )}
           </CardActions>
 
-          <CardContent className={classes.cardContent} >
+          <CardContent className={classes.cardContent}>
             <Typography gutterBottom variant="h5" component="div">
               {beer.name}
             </Typography>
@@ -147,7 +132,6 @@ const Modal = (props) => {
             <div>
               <div />
               <div className={classes.cursor}>
-                {/* <h4>Description :</h4> */}
 
                 <div
                   className={
@@ -155,18 +139,23 @@ const Modal = (props) => {
                       ? classes.description
                       : classes.description__hidden
                   }
-                  // style={isActiveStyleDescr ? scrollText : styleText}
-                  // onClick={showDescription}
                 >
-                  {/* {beer.description + (isActiveStyleDescr ? '...':"")}  */}
-                  {isActiveStyleDescr ? (beer.description.slice(0, 100) +'...'): beer.description} 
+                  {!isActiveStyleDescr
+                    ? beer.description.slice(0, 100) + "..."
+                    : beer.description}
                 </div>
-                <ArrowCircleDownIcon style={styleArrow} onClick={()=>changeActiveStyleDesc(false)}
-                  sx={{ color: colorPalette[3], fontSize: "2em" }}
-                />
-                <ArrowCircleUpIcon onClick={()=>changeActiveStyleDesc(true)}
-                  sx={{ color: colorPalette[3], fontSize: "2em" }}
-                />
+                {!isActiveStyleDescr ? (
+                  <ArrowCircleDownIcon
+                    style={styleArrow}
+                    onClick={() => changeActiveStyleDesc(true)}
+                    sx={{ color: colorPalette[3], fontSize: "2em" }}
+                  />
+                ) : (
+                  <ArrowCircleUpIcon
+                    onClick={() => changeActiveStyleDesc(false)}
+                    sx={{ color: colorPalette[3], fontSize: "2em" }}
+                  />
+                )}
               </div>
               {/* {      isActiveStyleDescr? null : <span>...</span>        } */}
               <h4>Food pairing :</h4>

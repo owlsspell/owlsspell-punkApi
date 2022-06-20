@@ -73,26 +73,11 @@ const Header = (props) => {
             <Tab
               label={item}
               {...a11yProps(0)}
-              // onClick={tabs[0]? ()=>props.combinedWithPizza() : tabs[1]? ()=> props.combinedWithSteak(): ()=>props.showAllBear(props.currentPage) }
             />
           ))}
         </Tabs>
       </AppBar>
-      {/* <SwipeableViews
-        axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-        index={value}
-        onChangeIndex={handleChangeIndex}
-      >
-        <TabPanel value={value} index={0} dir={theme.direction}>
-          Item One
-        </TabPanel>
-        <TabPanel value={value} index={1} dir={theme.direction}>
-          Item Two
-        </TabPanel>
-        <TabPanel value={value} index={2} dir={theme.direction}>
-          Item Three
-        </TabPanel>
-      </SwipeableViews> */}
+      
     </div>
   );
 };

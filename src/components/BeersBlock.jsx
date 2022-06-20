@@ -6,14 +6,9 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { Box, Button, CardActionArea, CardActions, Grid } from "@mui/material";
 import { withStyles } from "@mui/styles";
-import Snackbar from "@mui/material/Snackbar";
-import Fade from "@mui/material/Fade";
-import Backdrop from "@mui/material/Backdrop";
 import Modal from "@mui/material/Modal";
 import ModalContent from "./ModalContent";
 import { colorPalette } from "./color";
-import Paper from "@mui/material/Paper";
-import { styled } from "@mui/material/styles";
 
 const styles = {
   Card: {
@@ -51,7 +46,6 @@ const styles = {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    border: "2px solid #000",
     boxShadow: 24,
     padding: 4,
     border: "none",
